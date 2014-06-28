@@ -27,20 +27,21 @@
             return youtube_key;
         }
 
-        for (var i = 0; i < $("iframe").length; i++) {
+        num_iframes = $("iframe").length;
+        for (var i = 0; i < num_iframes; i++) {
+            var current_video = $("iframe").first()[0];
 
-            k = $("iframe").length;
-            for (var i = 0; i < k; i++) {
-                
-                var current_video = $("iframe").first()[0];
-                
-                $("iframe").first().replaceWith(
-                    '    <div style="width:' + current_video.width +'px; height:' + current_video.height + 'px; display: inline-block; vertical-align: top; overflow: hidden;">' +
-                    '        <img style="width:100%; height:100%;" src="http://img.youtube.com/vi/' + get_youtube_id(current_video.src) + '/maxresdefault.jpg">' + 
-                    '        <img style="width:100%; height:100%; margin-top:-' + current_video.height + 'px;" alt="" src="../assets/play_button.png" />' + 
-                    '    </div>'
-                );
-            }
+            $("iframe").first().replaceWith(
+                '    <div style="width:' + current_video.width +'px; height:' + current_video.height + 'px; display: inline-block; vertical-align: top; overflow: hidden;" ' + 
+                ' class="youtube_video_replacement" youtube-url="' + get_youtube_id(current_video.src) + '">\n' +
+                '        <img style="width:100%; height:100%;" src="http://img.youtube.com/vi/' + get_youtube_id(current_video.src) + '/maxresdefault.jpg">\n' + 
+                '        <img style="width:100%; height:100%; margin-top:-' + current_video.height + 'px;" alt="" src="../assets/play_button.png" />\n' + 
+                '    </div>\n'
+            );
         }
+        $(".youtube_video_replacement").click(function() {
+            $(this).replaceWith('<iframe width="' + $(this).width() + '" height="' + $(this).height() +
+                '" src="https://www.youtube.com/embed/' + $(this).attr('youtube-url') + '?autoplay=1" frameborder="0" allowfullscreen></iframe>')
+        });
     }); 
 })();
