@@ -282,10 +282,10 @@
                 var current_video = $("iframe").first()[0];
 
                 $("iframe").first().replaceWith(
-                    '    <div style="width:' + current_video.width +'px; height:' + current_video.height + 'px; display: inline-block; vertical-align: top; overflow: hidden;" ' + 
+                    '    <div style="width:' + current_video.width +'px; height:' + current_video.height + 'px; display: inline-block; vertical-align: bottom; overflow: hidden; position:relative;" ' + 
                     ' class="youtube_video_replacement" youtube-url="' + getYoutubeId(current_video.src) + '">\n' +
-                    '        <img style="width:100%; height:100%;" src="http://img.youtube.com/vi/' + getYoutubeId(current_video.src) + '/maxresdefault.jpg">\n' + 
-                    '        <img style="width:100%; height:100%; margin-top:-' + current_video.height + 'px;" alt="" src="' + play_button_logo + '" />\n' +
+                    '        <img style="position: absolute; top: 0px; left: 0px; width:100%; height:100%;" src="http://img.youtube.com/vi/' + getYoutubeId(current_video.src) + '/maxresdefault.jpg">\n' + 
+                    '        <img style="position: absolute; top: 0px; left: 0px; width:100%; height:100%; " alt="" src="' + play_button_logo + '" />\n' +
                     '    </div>\n'
                 );
             }
