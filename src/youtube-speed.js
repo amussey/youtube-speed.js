@@ -277,18 +277,20 @@
                 return youtube_key;
             }
 
-            num_iframes = $("iframe").length;
-            for (var i = 0; i < num_iframes; i++) {
-                var current_video = $("iframe").first()[0];
 
-                $("iframe").first().replaceWith(
-                    '    <div style="width:' + current_video.width +'px; height:' + current_video.height + 'px; display: inline-block; vertical-align: bottom; overflow: hidden; position:relative;" ' + 
-                    ' class="youtube_video_replacement" youtube-url="' + getYoutubeId(current_video.src) + '">\n' +
-                    '        <img style="position: absolute; top: 0px; left: 0px; width:100%; height:100%;" src="http://img.youtube.com/vi/' + getYoutubeId(current_video.src) + '/maxresdefault.jpg">\n' + 
-                    '        <img style="position: absolute; top: 0px; left: 0px; width:100%; height:100%; " alt="" src="' + play_button_logo + '" />\n' +
-                    '    </div>\n'
-                );
-            }
+            $('iframe').each(function(){
+                var current_video = $(this)[0];
+
+                if ($(this)[0].src.substring(0, 24).toLowerCase().indexOf("youtube.com") > -1 && getYoutubeId(current_video.src).length == 11) {
+                    $(this).replaceWith(
+                        ('    <div style="width:' + current_video.width +'px; height:' + current_video.height + 'px; display: inline-block; vertical-align: bottom; overflow: hidden; position:relative;" ' + 
+                        ' class="youtube_video_replacement" youtube-url="' + getYoutubeId(current_video.src) + '">\n' +
+                        '        <img style="position: absolute; top: 0px; left: 0px; width:100%; height:100%;" src="http://img.youtube.com/vi/' + getYoutubeId(current_video.src) + '/maxresdefault.jpg">\n' + 
+                        '        <img style="position: absolute; top: 0px; left: 0px; width:100%; height:100%; " alt="" src="' + play_button_logo + '" />\n' +
+                        '    </div>\n').replace("    ", "").replace("\n")
+                    );
+                }
+            });
             $(".youtube_video_replacement").click(function() {
                 $(this).replaceWith('<iframe width="' + $(this).width() + '" height="' + $(this).height() +
                     '" src="https://www.youtube.com/embed/' + $(this).attr('youtube-url') + '?autoplay=1" frameborder="0" allowfullscreen></iframe>')
